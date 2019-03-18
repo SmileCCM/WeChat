@@ -1,0 +1,13 @@
+<!--pages/profile/pages/budget/budget.wxml-->
+<view class='index'>
+ <form>
+    <view class="page-section">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <text>{{date}}月:</text>
+          <input class="weui-input" type="digit" placeholder="{{money}}"/>
+        </view>
+      </view>
+    </view>
+ </form>
+</view>

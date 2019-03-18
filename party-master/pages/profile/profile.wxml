@@ -1,10 +1,23 @@
 <!--index.wxml-->
-<view class="container">
+<view class="index">
+ <view class="index-bd">
   <view  bindtap="bindViewTap" class="userinfo">
     <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
     <text class="userinfo-nickname">{{userInfo.nickName}}</text>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+  </view>
+  <view class="index-bd">
+    <view class="kind-list">
+      <block wx:for-items="{{list}}" wx:key="{{item.id}}">
+        <view class="kind-list-item-bd kind-list-item-bd-show">
+          <view class="navigator-box navigator-box-show">
+           <navigator url="pages/{{item.id}}/{{item.id}}" class="navigator">
+            <view class="navigator-text">{{item.name}}</view>
+            <view class="navigator-arrow"></view>
+           </navigator> 
+          </view>
+        </view>
+      </block>
+    </view>
   </view>
 </view>

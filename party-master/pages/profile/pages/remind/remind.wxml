@@ -1,0 +1,16 @@
+<!--pages/profile/pages/remind/remind.wxml-->
+<view class="index">
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__bd">
+        <form bindsubmit="switchChange" report-submit="true">
+          提醒时间：每天
+          <picker mode="time" value="{{time}}" bindchange="bindTimeChange">
+            {{time}}
+          </picker>
+          <switch bindchange="switchChange" formType="submit"/>
+        </form>
+      </view>
+    </view>
+  </view>
+</view>

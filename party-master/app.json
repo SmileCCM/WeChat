@@ -3,7 +3,10 @@
     "pages/index/index",
     "pages/activity_list/activity_list",
     "pages/logs/logs",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/profile/pages/count/count",
+    "pages/profile/pages/budget/budget",
+    "pages/profile/pages/remind/remind"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,20 +1,36 @@
-var util = require('../../utils/util.js')
+// pages/profile/pages/count/count.js
 Page({
+
   /**
- * 页面的初始数据
- */
+   * 页面的初始数据
+   */
   data: {
-     date:""
+    list:[
+      {
+        id:"zfb",
+        name:"支付宝",
+        money:0
+      }, {
+        id: "wx",
+        name: "微信",
+        money: 0
+      }, {
+        id: "xj",
+        name: "现金",
+        money: 0
+      }, {
+        id: "default",
+        name: "默认账户",
+        money: 0
+      }
+      ]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var DATE = util.formatDate(new Date());
-    this.setData({
-      date: DATE
-    });
+
   },
 
   /**

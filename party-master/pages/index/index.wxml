@@ -1,3 +1,19 @@
-<view class="container">
-    吃饭    -10
+<view class="index">
+  <view class='index-bd'>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__bd">
+            <picker mode="date" value="{{date}}" start="2015-09-01" end="{{date}}" fields="month" bindchange="bindDateChange">
+              <view class="weui-input">{{date}} 收入：0.00 支出：10</view>
+            </picker>
+          </view>
+        </view>
+      </view>
+  </view>
+  <view class='index-bd'>
+  03月11日 星期一    支出：10
+  </view>
+  <view class='index-bd'>
+    吃饭   -10
+  </view>
 </view>

@@ -16,6 +16,23 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
+function formatTimehm(date) {
+
+  var hour = date.getHours()
+  var minute = date.getMinutes()
+
+  return [hour, minute].map(formatNumber).join(':')
+}
+
+function formatDate(date) {
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+
+  return [year, month].map(formatNumber).join('年')
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  formatDate: formatDate,
+  formatTimehm:formatTimehm
 }

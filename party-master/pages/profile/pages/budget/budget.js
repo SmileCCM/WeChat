@@ -1,10 +1,13 @@
-var util = require('../../utils/util.js')
+var util=require('../../../../utils/util.js')
+// pages/profile/pages/budget/budget.js
 Page({
+
   /**
- * 页面的初始数据
- */
+   * 页面的初始数据
+   */
   data: {
-     date:""
+    date:"",
+    money: 500.00
   },
 
   /**
@@ -64,5 +67,6 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+
 })
