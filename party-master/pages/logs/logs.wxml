@@ -1,4 +1,36 @@
 <!--logs.wxml-->
-<view class="container log-list">
-  <button>支出</button><button>收入</button>
+<view>
+  <form bindsubmit="formSubmit">
+    <view>
+      <radio-group name='zc'>
+        <radio value='支出' checked='true'>支出</radio>
+        <radio value='收入'>收入</radio>
+      </radio-group>
+    </view>
+    <view>
+      <picker mode="date" value="{{date}}" end="{{end}}" fields="day" name="time" bindchange="bindDateChange">
+        {{date}}
+      </picker>
+      <picker bindchange="bindPickerChange" value="{{array[index]}}" range="{{array}}" name="acount">
+        {{array[index]}}
+      </picker>
+    </view>
+    <radio-group name='sort'>
+      <view>
+        <radio value='一般' checked='true'>一般</radio>
+        <block wx:for-items="{{classes}}">
+          <radio value='{{item}}'>{{item}}</radio>
+        </block>
+      </view>
+    </radio-group>
+    <view>
+      金额：
+      <input type="digit" name='money' value='0' />
+    </view>
+    <view class="section">
+      备注：
+      <input name='remark' />
+    </view>
+    <button form-type="submit" type='primary'>记一笔</button>
+  </form>
 </view>

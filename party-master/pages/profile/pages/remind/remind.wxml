@@ -8,7 +8,7 @@
           <picker mode="time" value="{{time}}" bindchange="bindTimeChange">
             {{time}}
           </picker>
-          <switch bindchange="switchChange" formType="submit"/>
+          <switch bindchange="switchChange" formType="submit" checked='{{checked}}'/>
         </form>
       </view>
     </view>

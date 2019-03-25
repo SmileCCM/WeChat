@@ -20,7 +20,7 @@ Page({
         money: 0
       }, {
         id: "default",
-        name: "默认账户",
+        name: "未分类账户",
         money: 0
       }
       ]

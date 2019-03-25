@@ -4,7 +4,8 @@ Page({
  * 页面的初始数据
  */
   data: {
-     date:""
+     date:"",
+     end:""
   },
 
   /**
@@ -13,7 +14,8 @@ Page({
   onLoad: function (options) {
     var DATE = util.formatDate(new Date());
     this.setData({
-      date: DATE
+      date: DATE,
+      end:DATE
     });
   },
 
@@ -64,5 +66,10 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  bindDateChange(e) {
+    this.setData({
+      date: e.detail.value
+    })
   }
 })

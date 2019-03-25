@@ -28,11 +28,20 @@ function formatDate(date) {
   var year = date.getFullYear()
   var month = date.getMonth() + 1
 
-  return [year, month].map(formatNumber).join('年')
+  return [year, month].map(formatNumber).join('-')
+}
+
+function formatDateymd(date) {
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var day = date.getDate()
+
+  return [year, month, day].map(formatNumber).join('-') 
 }
 
 module.exports = {
   formatTime: formatTime,
   formatDate: formatDate,
-  formatTimehm:formatTimehm
+  formatTimehm:formatTimehm,
+  formatDateymd:formatDateymd
 }

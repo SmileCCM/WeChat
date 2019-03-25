@@ -12,8 +12,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    index:0,
-    time: ""
+    time: "",
+    checked:false
   },
 
   /**
@@ -76,19 +76,14 @@ Page({
 
   },
 
-  bindPickerChange(e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
-    this.setData({
-      index: e.detail.value
-    })
-  },
-
   switchChange(e) {
     console.log('switch 发生 change 事件，携带值为', e.detail.value)
     const self = this
     const { formId } = e.detail
     const formData = e.detail.value
-
+    this.setData({
+      checked: e.detail.value
+    })
     console.log('form_id is:', formId)
 
     app.getUserOpenId(function (err, openid) {
