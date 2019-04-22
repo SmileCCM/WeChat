@@ -1,0 +1,183 @@
+CREATE DATABASE accounts;
+
+USE accounts;
+
+-- 1.用户
+CREATE TABLE users (
+	openid VARCHAR (100) PRIMARY KEY,
+	-- opengid 用户唯一标识
+	nickname VARCHAR (50),
+	-- 用户昵称
+	gender INT,
+	/*// 性别 0：未知、1：男、2：女*/
+	province varchar(50) -- 省份
+);
+
+-- 2. 账户
+CREATE TABLE account (
+	aid INT PRIMARY KEY auto_increment,
+	-- 账户id
+	aname VARCHAR (50) ,
+	-- 账户名称
+	rest DECIMAL(11,2) DEFAULT 0,
+	-- 账户余额
+	openid VARCHAR (100),
+	-- 用户
+	FOREIGN KEY (openid) REFERENCES users (openid)
+);
+
+-- 3.系统类别
+CREATE TABLE classes (
+	cid INT PRIMARY KEY auto_increment,
+	-- 类id
+	cname VARCHAR (50) UNIQUE,
+	-- 类别名称
+	lx enum ('收入', '支出') -- 类型，收入还是支出
+);
+
+-- 4.用户自定义类别
+CREATE TABLE userclass (
+	cid INT PRIMARY KEY auto_increment,
+	-- 类id
+	cname VARCHAR (50) UNIQUE,
+	-- 类别名称
+	lx enum ('收入', '支出'),
+	-- 类型，收入还是支出
+	openid VARCHAR (100),
+	-- 用户
+	FOREIGN KEY (openid) REFERENCES users (openid)
+);
+
+-- 5.预算   date_format(bdate,'%Y-%m')日期格式;STR_TO_DATE(str, format)函数是DATE_FORMAT()函数的反函数。
+-- 它需要一个字符串str和一个格式字符串格式。STR_TO_DATE()返回一个DATETIME值，如果格式字符串包含日期和时间部分，或如果字符串只包含日期或时间的部分返回日期或时间值。
+CREATE TABLE budget (
+	bdate VARCHAR (50),
+	-- 日期'yyyy-mm'
+	openid VARCHAR (100),
+	-- 用户
+	amount DECIMAL(11,2),
+	-- 预算金额
+	PRIMARY KEY (bdate, openid)
+);
+
+-- 6.账单
+CREATE TABLE bills (
+	bid INT PRIMARY KEY auto_increment,
+	-- 账单id
+	lx enum ('收入', '支出'),
+	-- 类型，收入还是支出
+	billdate date,
+	-- 账单日期
+	acct VARCHAR (50) default '未分类账户',
+	-- 账户
+	class VARCHAR (50),
+	-- 类别
+	money DECIMAL(11,2),
+	-- 金额
+	remark VARCHAR (100),
+	-- 备注
+	openid VARCHAR (100),
+	-- 用户
+	FOREIGN KEY (openid) REFERENCES users (openid)
+);
+
+USE accounts;
+INSERT INTO classes(cname,lx) VALUES('餐饮','支出');
+INSERT INTO classes(cname,lx) VALUES('购物','支出');
+INSERT INTO classes(cname,lx) VALUES('日用','支出');
+INSERT INTO classes(cname,lx) VALUES('交通','支出');
+INSERT INTO classes(cname,lx) VALUES('果蔬','支出');
+INSERT INTO classes(cname,lx) VALUES('零食','支出');
+INSERT INTO classes(cname,lx) VALUES('通讯','支出');
+INSERT INTO classes(cname,lx) VALUES('服装','支出');
+INSERT INTO classes(cname,lx) VALUES('娱乐','支出');
+INSERT INTO classes(cname,lx) VALUES('医疗','支出');
+INSERT INTO classes(cname,lx) VALUES('工资','收入');
+INSERT INTO classes(cname,lx) VALUES('奖金','收入');
+INSERT INTO classes(cname,lx) VALUES('兼职','收入');
+INSERT INTO classes(cname,lx) VALUES('收款','收入');
+INSERT INTO classes(cname,lx) VALUES('红包','收入');
+SELECT * from classes;
+
+--   如果增加了新用户，自动默认添加基本账户，默认余额为0；
+CREATE TRIGGER tri_default_account AFTER INSERT 
+ON users FOR EACH ROW
+BEGIN
+    DECLARE openid VARCHAR (100);
+    SET openid= new.openid;
+    INSERT INTO account(aname,openid) VALUES('未分类账户',openid);
+    INSERT INTO account(aname,openid) VALUES('支付宝',openid);
+    INSERT INTO account(aname,openid) VALUES('微信',openid);
+    INSERT INTO account(aname,openid) VALUES('现金',openid);
+END;
+--    用户记一笔账后更新对应的账户余额
+CREATE TRIGGER tri_bills_account_insert AFTER INSERT
+ON bills FOR EACH ROW
+BEGIN
+    SET @lx=new.lx;
+    SET @acct=new.acct;
+    SET @money=new.money;
+    SET @openid=new.openid;  
+    SET @acid=(SELECT aid FROM account where openid=@openid AND aname=@acct);
+
+    IF (@lx="支出") then 
+       UPDATE account SET rest=rest-@money WHERE aid=@acid;
+    END IF;
+    IF (@lx="收入") THEN
+       UPDATE account SET rest=rest+@money WHERE aid=@acid;
+    END IF;
+END
+
+-- 用户删除一笔账后更新对应的账户余额
+CREATE TRIGGER tri_bills_account_delete AFTER DELETE
+ON bills FOR EACH ROW
+BEGIN
+    SET @lx=old.lx;
+    SET @acct=old.acct;
+    SET @money=old.money;
+    SET @openid=old.openid;  
+    SET @acid=(SELECT aid FROM account where openid=@openid AND aname=@acct);
+
+    IF (@lx="支出") then 
+       UPDATE account SET rest=rest+@money WHERE aid=@acid;
+    END IF;
+    IF (@lx="收入") THEN
+       UPDATE account SET rest=rest-@money WHERE aid=@acid;
+    END IF;
+END
+
+-- 更新数据，相当于删除一条再插入一条
+CREATE TRIGGER tri_bills_account_update AFTER UPDATE
+ON bills FOR EACH ROW
+BEGIN
+    SET @lx=old.lx;
+    SET @acct=old.acct;
+    SET @money=old.money;
+    SET @openid=old.openid;  
+    SET @acid=(SELECT aid FROM account where openid=@openid AND aname=@acct);
+
+    IF (@lx="支出") then 
+       UPDATE account SET rest=rest+@money WHERE aid=@acid;
+    END IF;
+    IF (@lx="收入") THEN
+       UPDATE account SET rest=rest-@money WHERE aid=@acid;
+    END IF;
+
+    SET @lx=new.lx;
+    SET @acct=new.acct;
+    SET @money=new.money;
+    SET @openid=new.openid;  
+    SET @acid=(SELECT aid FROM account where openid=@openid AND aname=@acct);
+
+    IF (@lx="支出") then 
+       UPDATE account SET rest=rest-@money WHERE aid=@acid;
+    END IF;
+    IF (@lx="收入") THEN
+       UPDATE account SET rest=rest+@money WHERE aid=@acid;
+    END IF;
+END
+-- 视图，按月分类的支出和收入总额
+CREATE VIEW view_user_sum
+AS
+  SELECT bid,openid,DATE_FORMAT(billdate,'%Y-%m') as date,SUM(if(lx="支出",money,0)) as zc,SUM(if(lx="收入",money,0)) as sr FROM bills GROUP BY openid,DATE_FORMAT(billdate,'%Y-%m');
+

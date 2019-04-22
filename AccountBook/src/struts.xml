@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+   <package name="default" extends="struts-default,json-default" namespace="/">
+     <action name="getopenid" class="com.ssh.action.LoginAction" method="getOpenID">
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result> 
+     </action>
+     <action name="infoupdate" class="com.ssh.action.LoginAction" method="userInfoupdate">
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result> 
+        <result name="input" >/MyJsp.jsp</result>
+     </action>
+     <action name="togetAccounts" class="com.ssh.action.AccountAction" method="togetAccount">
+        <result name="success" type="json">
+           <param name="root">map</param>
+        </result>
+     </action>
+     <action name="addAccount" class="com.ssh.action.AccountAction" method="addacount">
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result>
+     </action>
+     <action name="updateAccount" class="com.ssh.action.AccountAction" method="updateacc">
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result>
+     </action>
+      <action name="deleteAccount" class="com.ssh.action.AccountAction" method="deleteacc">
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result>
+     </action>
+     <action name="findbud" class="com.ssh.action.BudgetAction" method="find">
+        <result name="success" type="json">
+           <param name="root">map</param>
+        </result>
+     </action>
+     <action name="updatedbud" class="com.ssh.action.BudgetAction" method="update">
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result>
+     </action>
+     <action name="addbill" class="com.ssh.action.BillsAction" method="addbill">  
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result>
+     </action>
+     <action name="findbills" class="com.ssh.action.BillsAction" method="findbills">  
+        <result name="success" type="json">
+           <param name="root">map</param>
+        </result>
+     </action>
+      <action name="updatebill" class="com.ssh.action.BillsAction" method="updatebill">  
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result>
+     </action>
+     <action name="findbyconditons" class="com.ssh.action.BillsAction" method="findbyconditons">  
+        <result name="success" type="json">
+           <param name="root">map</param>
+        </result>
+     </action>
+     <action name="delete" class="com.ssh.action.BillsAction" method="remove">  
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result>
+     </action>
+     <action name="getclasses" class="com.ssh.action.ClassesAction" method="getclasses">  
+        <result name="success" type="json">
+           <param name="root">map</param>
+        </result>
+     </action>
+     <action name="add" class="com.ssh.action.ClassesAction" method="addc">  
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result>
+     </action>
+     <action name="update" class="com.ssh.action.ClassesAction" method="update">  
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result>
+     </action>
+     <action name="remove" class="com.ssh.action.ClassesAction" method="remove">  
+        <result name="success" type="json">
+           <param name="root">result</param>
+        </result>
+     </action>
+   </package>
+</struts>    
